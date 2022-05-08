@@ -1,0 +1,31 @@
+#!/bin/bash
+export PATH="/sbin:$PATH"
+ramfs_size_mb=900
+#mount_point=/private/tmp
+##write the dir want to make and use
+mount_point=/Volumes/ramdir
+
+ramfs_size_sectors=$((${ramfs_size_mb}*1024*1024/512))
+ramdisk_dev=`hdid -nomount ram://${ramfs_size_sectors}`
+newfs_hfs -v 'beikacyou' ${ramdisk_dev}
+mkdir -p ${mount_point}
+mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
+chown root:wheel ${mount_point}
+chmod 1777 ${mount_point}
+mkdir -p ${mount_point}/go-build
+chmod 1777 ${mount_point}/go-build
+mkdir -p ${mount_point}/chrome
+chmod 1777 ${mount_point}/chrome
+
+
+
+
+mount_point=/var/log
+ramfs_size_mb=30
+ramfs_size_sectors=$((${ramfs_size_mb}*1024*1024/512))
+ramdisk_dev=`hdid -nomount ram://${ramfs_size_sectors}`
+newfs_hfs -v 'log' ${ramdisk_dev}
+mkdir -p ${mount_point}
+mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
+chown root:wheel ${mount_point}
+chmod 1777 ${mount_point}
