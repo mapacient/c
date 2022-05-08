@@ -1,0 +1,233 @@
+
+servers = (
+  {
+    address = "chat.freenode.net";
+    chatnet = "Freenode";
+    port = "6697";
+    use_tls = "yes";
+    tls_verify = "yes";
+  },
+  {
+    address = "chat.freenode.net";
+    chatnet = "Freenode";
+    port = "6667";
+    use_tls = "yes";
+    tls_verify = "yes";
+    autoconnect = "yes";
+  }
+);
+
+chatnets = {
+  Freenode = {
+    type = "IRC";
+    autosendcmd = "/msg nickserv identify Ishouldwritename Ishouldwritepasswd;wait -freenode 5000";
+    max_kicks = "1";
+    max_msgs = "4";
+    max_whois = "1";
+  };
+  IRCnet = { 
+    type = "IRC";
+    max_kicks = "1";
+    max_msgs = "1";
+    max_whois = "1";
+  };
+  SILC = { type = "SILC"; };
+};
+
+channels = (
+  { name = "#python"; chatnet = "freenode"; },
+  { name = "#ai"; chatnet = "freenode"; },
+  { name = "#sql"; chatnet = "freenode"; },
+  { name = "#docker"; chatnet = "freenode"; },
+  { name = "#kubernetes"; chatnet = "freenode"; },
+  { name = "#programming"; chatnet = "freenode"; },
+  { name = "#sql"; chatnet = "Freenode"; autojoin = "no"; },
+  { name = "#linux"; chatnet = "freenode"; autojoin = "no"; },
+  { name = "#docker"; chatnet = "Freenode"; autojoin = "no"; },
+  { name = "#go-nuts"; chatnet = "Freenode"; autojoin = "no"; },
+  { name = "##algorithms"; chatnet = "freenode"; autojoin = "yes"; },
+  { name = "#ubuntu-cn"; chatnet = "freenode"; },
+  { name = "##kaiwa"; chatnet = "freenode"; },
+  { name = "##AGI"; chatnet = "freenode"; autojoin = "yes"; }
+);
+
+aliases = {
+  AW = "SET AUTOCREATE_WINDOWS TOGGLE";
+  ATAG = "WINDOW SERVER";
+  ADDALLCHANS = "SCRIPT EXEC foreach my \\$channel (Irssi::channels()) { Irssi::command(\"CHANNEL ADD -auto \\$channel->{name} \\$channel->{server}->{tag} \\$channel->{key}\")\\;}";
+  B = "BAN";
+  BACK = "AWAY";
+  BANS = "BAN";
+  BYE = "QUIT";
+  C = "CLEAR";
+  CAL = "EXEC - if command -v bc >/dev/null 2>&1\\; then printf '%s=' '$*'\\; echo '$*' | bc -l\\; else echo bc was not found\\; fi";
+  CHAT = "DCC CHAT";
+  EXEMPTLIST = "MODE $C +e";
+  GT = "SCROLLBACK GOTO";
+  H = "SCROLLBACK GOTO -50";
+  L = "SCROLLBACK GOTO +50";
+  HL = "HILIGHT";
+  HOST = "USERHOST";
+  INVITELIST = "MODE $C +I";
+  J = "JOIN -window";
+  K = "KICK";
+  KB = "KICKBAN";
+  KN = "KNOCKOUT";
+  LAST = "LASTLOG";
+  LEAVE = "PART";
+  NMSG = "^MSG";
+  P = "PART";
+  Q = "QUERY";
+  RESET = "SET -default";
+  RUN = "SCRIPT LOAD";
+  SAY = "MSG *";
+  SB = "SCROLLBACK";
+  SBAR = "STATUSBAR";
+  SIGNOFF = "QUIT";
+  T = "TOPIC";
+  UB = "UNBAN";
+  UMODE = "MODE $N";
+  UNSET = "SET -clear";
+  W = "WINDOW GOTO";
+  WR = "WINDOW RIGHT";
+  WC = "WINDOW CLOSE";
+  WI = "WHOIS";
+  WII = "WHOIS $0 $0";
+  WL = "WINDOW LIST";
+  WN = "WINDOW NEW HIDDEN";
+  WQUERY = "QUERY -window";
+  WW = "WHOWAS";
+};
+
+statusbar = {
+
+  items = {
+
+    barstart = "{sbstart}";
+    barend = "{sbend}";
+
+    topicbarstart = "{topicsbstart}";
+    topicbarend = "{topicsbend}";
+
+    user = "{sb {sbnickmode $cumode}$N{sbmode $usermode}{sbaway $A}}";
+
+    window = "{sb $winref:$tag/$itemname{sbmode $M}}";
+    window_empty = "{sb $winref{sbservertag $tag}}";
+
+    prompt = "{prompt $[.15]itemname}";
+    prompt_empty = "{prompt $winname}";
+
+    topic = " $topic";
+    topic_empty = "should I write topic";
+
+    lag = "{sb Lag: $0-}";
+    act = "{sb Act: $0-}";
+    more = "-- more --";
+  };
+
+  default = {
+
+    window = {
+
+      disabled = "no";
+      type = "window";
+      placement = "top";
+      position = "1";
+      visible = "active";
+
+      items = {
+        barstart = { priority = "100"; };
+        user = { };
+        window = { };
+        window_empty = { };
+        lag = { priority = "-1"; };
+        act = { priority = "10"; };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+
+    window_inact = {
+
+      type = "window";
+      placement = "top";
+      position = "1";
+      visible = "inactive";
+
+      items = {
+        barstart = { priority = "100"; };
+        window = { };
+        window_empty = { };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+
+    prompt = {
+
+      type = "root";
+      placement = "bottom";
+      position = "100";
+      visible = "always";
+
+      items = {
+        prompt = { priority = "-1"; };
+        prompt_empty = { priority = "-1"; };
+        input = { priority = "10"; };
+      };
+    };
+
+    topic = {
+
+      type = "root";
+      placement = "top";
+      position = "1";
+      visible = "inactive";
+
+      items = {
+        topicbarstart = { priority = "100"; };
+        topic = { };
+        topic_empty = { };
+        topicbarend = { priority = "100"; alignment = "right"; };
+      };
+      disabled = "yes";
+    };
+  };
+};
+settings = {
+  core = {
+    real_name = "should I write name";
+    user_name = "should I write name";
+    nick = "should I write name";
+  };
+  "fe-text" = { actlist_sort = "refnum"; scroll = "yes"; };
+  "fe-common/core" = {
+    hilight_nick_matches_everywhere = "yes";
+    print_active_channel = "yes";
+    use_msgs_window = "yes";
+    reuse_unused_windows = "yes";
+    autolog = "yes";
+    autolog_path = "/Volumes/beikacyou/irc/$0info";
+    AUTOCREATE_WINDOWS = "yes";
+  };
+};
+ignores = ( { level = "PARTS QUITS"; } );
+hilights = (
+  {
+    text = "\\bmake\\b";
+    color = "%R";
+    nick = "no";
+    word = "no";
+    regexp = "yes";
+    channels = ( "#go-nuts" );
+  },
+  {
+    text = "ai";
+    color = "%R";
+    nick = "no";
+    word = "yes";
+    channels = ( "#ai" );
+  },
+  { text = "should I write name"; color = "%R"; nick = "no"; word = "yes"; }
+);
+logs = { };
